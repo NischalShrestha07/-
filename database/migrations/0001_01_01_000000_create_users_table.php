@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -17,7 +14,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('utype')->default('user')->comment('ADM For Admin & USR for User or Customer');
+            $table->string('phone', 20)->nullable();
+            $table->string('profile_image')->nullable();
+            $table->string('role')->default('customer');
+            $table->boolean('status')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -38,10 +38,7 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');

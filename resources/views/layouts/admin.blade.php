@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $page ?? 'EcommercePortal'}}</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -31,8 +31,9 @@
                 <div class="section-menu-left">
                     <div class="box-logo">
                         <a href="{{route('admin.index')}}" id="site-logo-inner">
-                            <img class="" id="logo_header" alt="" src="images/logo/logo.png"
-                                data-light="images/logo/logo.png" data-dark="images/logo/logo.png">
+                            <img class="" id="logo_header" alt="" src="{{ asset('assets/images/logo.png') }}"
+                                data-light="{{ asset('assets/images/logo.png') }}"
+                                data-dark="{{ asset('assets/images/logo.png') }}">
                         </a>
                         <div class="button-show-hide">
                             <i class="icon-menu-left"></i>
@@ -59,12 +60,12 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.index')}}" class="">
+                                            <a href="{{route('admin.products.create')}}" class="">
                                                 <div class="text">Add Product</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.products')}}" class="">
+                                            <a href="{{route('admin.products.index')}}" class="">
                                                 <div class="text">Products</div>
                                             </a>
                                         </li>
@@ -77,12 +78,12 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.brands')}}" class="">
+                                            <a href="{{route('admin.brands.create')}}" class="">
                                                 <div class="text">New Brand</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.brands')}}" class="">
+                                            <a href="{{route('admin.brands.index')}}" class="">
                                                 <div class="text">Brands</div>
                                             </a>
                                         </li>
@@ -95,12 +96,12 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.category')}}" class="">
+                                            <a href="{{route('admin.categories.create')}}" class="">
                                                 <div class="text">New Category</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.category')}}" class="">
+                                            <a href="{{route('admin.categories.index')}}" class="">
                                                 <div class="text">Categories</div>
                                             </a>
                                         </li>
@@ -114,39 +115,39 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.orders')}}" class="">
+                                            <a href="{{route('admin.orders.index')}}" class="">
                                                 <div class="text">Orders</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.orders')}}" class="">
+                                            <a href="{{route('admin.orders.index')}}" class="">
                                                 <div class="text">Order tracking</div>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="{{route('admin.sliders')}}" class="">
+                                    <a href="{{route('admin.sliders.index')}}" class="">
                                         <div class="icon"><i class="icon-image"></i></div>
                                         <div class="text">Slider</div>
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="{{route('admin.coupons')}}" class="">
+                                    <a href="{{route('admin.coupons.index')}}" class="">
                                         <div class="icon"><i class="icon-grid"></i></div>
                                         <div class="text">Coupns</div>
                                     </a>
                                 </li>
 
                                 <li class="menu-item">
-                                    <a href="{{route('admin.users')}}" class="">
+                                    <a href="{{route('admin.users.index')}}" class="">
                                         <div class="icon"><i class="icon-user"></i></div>
                                         <div class="text">User</div>
                                     </a>
                                 </li>
 
                                 <li class="menu-item">
-                                    <a href="{{route('admin.settings')}}" class="">
+                                    <a href="{{route('admin.settings.index')}}" class="">
                                         <div class="icon"><i class="icon-settings"></i></div>
                                         <div class="text">Settings</div>
                                     </a>
@@ -266,11 +267,12 @@
                                                     </li>
                                                     <li class="product-item gap14 mb-10">
                                                         <div class="image no-bg">
-                                                            <img src="images/products/21.png" alt="">
+                                                            <img src="{{ asset('images/products/21.png') }}" alt="">
                                                         </div>
                                                         <div class="flex items-center justify-between gap20 flex-grow">
                                                             <div class="name">
-                                                                <a href="product-list.html" class="body-text">Kristin
+                                                                <a href="{{ route('admin.products.index') }}"
+                                                                    class="body-text">Kristin
                                                                     Watson</a>
                                                             </div>
                                                         </div>

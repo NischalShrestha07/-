@@ -8,12 +8,14 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('brands', function (Blueprint $table) {
+        Schema::create('sliders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug')->unique();
-            $table->string('image')->nullable();
+            $table->string('title');
             $table->text('description')->nullable();
+            $table->string('image');
+            $table->string('link')->nullable();
+            $table->integer('order')->default(0);
+            $table->string('alt_text')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
@@ -21,6 +23,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('brands');
+        Schema::dropIfExists('sliders');
     }
 };

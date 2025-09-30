@@ -1,9 +1,9 @@
-@extends('layouts.admin', ['page' => 'Add Category'])
+@extends('layouts.admin', ['page' => 'Add Slider'])
 @section('content')
 <div class="main-content-inner">
     <div class="main-content-wrap">
         <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-            <h3>Add Category</h3>
+            <h3>Add Slider</h3>
             <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                 <li>
                     <a href="{{ route('admin.index') }}">
@@ -14,21 +14,20 @@
                     <i class="icon-chevron-right"></i>
                 </li>
                 <li>
-                    <a href="{{ route('admin.categories.index') }}">
-                        <div class="text-tiny">Categories</div>
+                    <a href="{{ route('admin.sliders.index') }}">
+                        <div class="text-tiny">Sliders</div>
                     </a>
                 </li>
                 <li>
                     <i class="icon-chevron-right"></i>
                 </li>
                 <li>
-                    <div class="text-tiny">Add Category</div>
+                    <div class="text-tiny">Add Slider</div>
                 </li>
             </ul>
         </div>
-
         <div class="wg-box">
-            <form class="form-new-product form-style-1" action="{{ route('admin.categories.store') }}" method="POST"
+            <form class="form-new-product form-style-1" method="POST" action="{{ route('admin.sliders.store') }}"
                 enctype="multipart/form-data">
                 @csrf
                 @if ($errors->any())
@@ -42,33 +41,21 @@
                 @endif
 
                 <fieldset class="name">
-                    <div class="body-title">Category Name <span class="tf-color-1">*</span></div>
-                    <input class="flex-grow" type="text" placeholder="Category name" name="name"
-                        value="{{ old('name') }}" aria-required="true" required>
+                    <div class="body-title">Title <span class="tf-color-1">*</span></div>
+                    <input class="flex-grow" type="text" placeholder="Slider Title" name="title"
+                        value="{{ old('title') }}" aria-required="true" required>
+                    <div class="text-tiny">Max 255 characters.</div>
                 </fieldset>
 
                 <fieldset class="name">
-                    <div class="body-title">Category Slug <span class="tf-color-1">*</span></div>
-                    <input class="flex-grow" type="text" placeholder="Category slug" name="slug"
-                        value="{{ old('slug') }}" aria-required="true" required>
-                    <div class="text-tiny">Leave blank to auto-generate from name.</div>
-                </fieldset>
-
-                <fieldset class="category">
-                    <div class="body-title mb-10">Parent Category</div>
-                    <div class="select">
-                        <select name="parent_id">
-                            <option value="">None</option>
-                            @foreach ($categories as $cat)
-                            <option value="{{ $cat->id }}" {{ old('parent_id')==$cat->id ? 'selected' : '' }}>{{
-                                $cat->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <div class="body-title">Description</div>
+                    <textarea class="flex-grow" placeholder="Slider Description"
+                        name="description">{{ old('description') }}</textarea>
+                    <div class="text-tiny">Max 500 characters.</div>
                 </fieldset>
 
                 <fieldset>
-                    <div class="body-title">Upload Image</div>
+                    <div class="body-title">Upload Image <span class="tf-color-1">*</span></div>
                     <div class="upload-image flex-grow">
                         <div class="item" id="imgpreview" style="display:none">
                             <img src="" class="effect8" alt="Preview">
@@ -80,9 +67,39 @@
                                 </span>
                                 <span class="body-text">Drop your image here or select <span class="tf-color">click to
                                         browse</span></span>
-                                <input type="file" id="myFile" name="image" accept="image/*">
+                                <input type="file" id="myFile" name="image" accept="image/*" required>
                             </label>
                         </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="name">
+                    <div class="body-title">Alt Text</div>
+                    <input class="flex-grow" type="text" placeholder="Image Alt Text (for SEO)" name="alt_text"
+                        value="{{ old('alt_text') }}">
+                    <div class="text-tiny">Max 255 characters, for accessibility and SEO.</div>
+                </fieldset>
+
+                <fieldset class="name">
+                    <div class="body-title">Link</div>
+                    <input class="flex-grow" type="url" placeholder="Link (e.g., https://example.com)" name="link"
+                        value="{{ old('link') }}">
+                </fieldset>
+
+                <fieldset class="name">
+                    <div class="body-title">Order</div>
+                    <input class="flex-grow" type="number" placeholder="Display Order" name="order"
+                        value="{{ old('order') }}" min="0">
+                    <div class="text-tiny">Leave blank to append to the end.</div>
+                </fieldset>
+
+                <fieldset class="name">
+                    <div class="body-title">Status <span class="tf-color-1">*</span></div>
+                    <div class="select flex-grow">
+                        <select name="status" required>
+                            <option value="1" {{ old('status', 1)==1 ? 'selected' : '' }}>Active</option>
+                            <option value="0" {{ old('status')==0 ? 'selected' : '' }}>Inactive</option>
+                        </select>
                     </div>
                 </fieldset>
 
