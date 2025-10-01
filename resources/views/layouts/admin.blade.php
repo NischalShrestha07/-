@@ -31,7 +31,7 @@
                 <div class="section-menu-left">
                     <div class="box-logo">
                         <a href="{{route('admin.index')}}" id="site-logo-inner">
-                            <img class="" id="logo_header" alt="" src="{{ asset('assets/images/logo.png') }}"
+                            <img class="" alt="logo" src="{{ asset('assets/images/logo.png') }}"
                                 data-light="{{ asset('assets/images/logo.png') }}"
                                 data-dark="{{ asset('assets/images/logo.png') }}">
                         </a>
