@@ -94,6 +94,26 @@
                     <textarea class="mb-10" name="description"
                         placeholder="Description">{{ old('description') }}</textarea>
                 </fieldset>
+
+                <fieldset class="tags">
+                    <div class="body-title mb-10">Tags</div>
+                    <select name="tags[]" multiple>
+                        @foreach ($tags as $tag)
+                        <option value="{{ $tag->id }}" {{ in_array($tag->id, old('tags', [])) ? 'selected' : '' }}>{{
+                            $tag->name }}</option>
+                        @endforeach
+                    </select>
+                </fieldset>
+
+                <fieldset class="meta">
+                    <div class="body-title mb-10">Meta Title</div>
+                    <input type="text" name="meta_title" value="{{ old('meta_title') }}">
+                </fieldset>
+
+                <fieldset class="meta">
+                    <div class="body-title mb-10">Meta Description</div>
+                    <textarea name="meta_description">{{ old('meta_description') }}</textarea>
+                </fieldset>
             </div>
 
             <div class="wg-box">
@@ -181,6 +201,20 @@
                     </fieldset>
                 </div>
 
+                <fieldset class="variants">
+                    <div class="body-title mb-10">Variants</div>
+                    <div id="variants-container">
+                        <div class="variant-row">
+                            <input type="text" name="variants[0][size]" placeholder="Size">
+                            <input type="text" name="variants[0][color]" placeholder="Color">
+                            <input type="number" step="0.01" name="variants[0][price]" placeholder="Price">
+                            <input type="number" name="variants[0][quantity]" placeholder="Quantity">
+                            <button type="button" class="remove-variant">Remove</button>
+                        </div>
+                    </div>
+                    <button type="button" id="add-variant">Add Variant</button>
+                </fieldset>
+
                 <div class="cols gap10">
                     <button class="tf-button w-full" type="submit">Add Product</button>
                 </div>
@@ -190,6 +224,28 @@
 </div>
 
 <script>
+    let variantCount = 1;
+    document.getElementById('add-variant').addEventListener('click', function() {
+        const container = document.getElementById('variants-container');
+        const row = document.createElement('div');
+        row.className = 'variant-row';
+        row.innerHTML = `
+            <input type="text" name="variants[${variantCount}][size]" placeholder="Size">
+            <input type="text" name="variants[${variantCount}][color]" placeholder="Color">
+            <input type="number" step="0.01" name="variants[${variantCount}][price]" placeholder="Price">
+            <input type="number" name="variants[${variantCount}][quantity]" placeholder="Quantity">
+            <button type="button" class="remove-variant">Remove</button>
+        `;
+        container.appendChild(row);
+        variantCount++;
+    });
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('remove-variant')) {
+            event.target.parentElement.remove();
+        }
+    });
+
     // Preview main image
     document.getElementById('mainImage').addEventListener('change', function(event) {
         const preview = document.getElementById('imgpreview');

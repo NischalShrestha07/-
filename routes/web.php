@@ -13,19 +13,37 @@ use App\Http\Controllers\SettingController;
 use App\Http\Middleware\AuthAdmin;
 use Illuminate\Support\Facades\Route;
 
+// Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth'])->group(function () {
+// Authenticated User Routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
     Route::get('account-dashboard', [UserController::class, 'index'])->name('user.index');
 });
 
-Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->group(function () {
+// Admin Routes
+Route::middleware(['auth', 'AuthAdmin'])->prefix('admin')->group(function () {
+    // Admin Dashboard
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
 
-    // Brands Routes
+    // Product Routes
+    Route::prefix('products')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('admin.products.index');
+        Route::get('/create', [ProductController::class, 'create'])->name('admin.products.create');
+        Route::post('/', [ProductController::class, 'store'])->name('admin.products.store');
+        Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
+        Route::put('/{product}', [ProductController::class, 'update'])->name('admin.products.update');
+        Route::delete('/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+        Route::post('/bulk', [ProductController::class, 'bulkAction'])->name('admin.products.bulk');
+        Route::get('/export', [ProductController::class, 'export'])->name('admin.products.export');
+        Route::delete('/gallery/{image}', [ProductController::class, 'destroyGalleryImage'])->name('admin.products.gallery.destroy');
+    });
+
+    // Brand Routes
     Route::get('brands', [BrandController::class, 'index'])->name('admin.brands.index');
     Route::get('brands/create', [BrandController::class, 'create'])->name('admin.brands.create');
     Route::post('brands', [BrandController::class, 'store'])->name('admin.brands.store');
@@ -33,7 +51,7 @@ Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->group(function (
     Route::put('brands/{brand}', [BrandController::class, 'update'])->name('admin.brands.update');
     Route::delete('brands/{brand}', [BrandController::class, 'destroy'])->name('admin.brands.destroy');
 
-    // Users Routes
+    // User Routes
     Route::get('users', [UserController::class, 'adminIndex'])->name('admin.users.index');
     Route::get('users/create', [UserController::class, 'create'])->name('admin.users.create');
     Route::post('users', [UserController::class, 'store'])->name('admin.users.store');
@@ -41,7 +59,7 @@ Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->group(function (
     Route::put('users/{user}', [UserController::class, 'update'])->name('admin.users.update');
     Route::delete('users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 
-    // Sliders Routes
+    // Slider Routes
     Route::get('sliders', [SliderController::class, 'index'])->name('admin.sliders.index');
     Route::get('sliders/create', [SliderController::class, 'create'])->name('admin.sliders.create');
     Route::post('sliders', [SliderController::class, 'store'])->name('admin.sliders.store');
@@ -49,7 +67,7 @@ Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->group(function (
     Route::put('sliders/{slider}', [SliderController::class, 'update'])->name('admin.sliders.update');
     Route::delete('sliders/{slider}', [SliderController::class, 'destroy'])->name('admin.sliders.destroy');
 
-    // Coupons Routes
+    // Coupon Routes
     Route::get('coupons', [CouponController::class, 'index'])->name('admin.coupons.index');
     Route::get('coupons/create', [CouponController::class, 'create'])->name('admin.coupons.create');
     Route::post('coupons', [CouponController::class, 'store'])->name('admin.coupons.store');
@@ -57,15 +75,7 @@ Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->group(function (
     Route::put('coupons/{coupon}', [CouponController::class, 'update'])->name('admin.coupons.update');
     Route::delete('coupons/{coupon}', [CouponController::class, 'destroy'])->name('admin.coupons.destroy');
 
-    // Products Routes
-    Route::get('products', [ProductController::class, 'index'])->name('admin.products.index');
-    Route::get('products/create', [ProductController::class, 'create'])->name('admin.products.create');
-    Route::post('products', [ProductController::class, 'store'])->name('admin.products.store');
-    Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
-    Route::put('products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
-    Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
-
-    // Categories Routes
+    // Category Routes
     Route::get('categories', [CategoryController::class, 'index'])->name('admin.categories.index');
     Route::get('categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
     Route::post('categories', [CategoryController::class, 'store'])->name('admin.categories.store');
@@ -73,7 +83,7 @@ Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->group(function (
     Route::put('categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
     Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
-    // Orders Routes
+    // Order Routes
     Route::get('orders', [OrderController::class, 'index'])->name('admin.orders.index');
     Route::get('orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
     Route::put('orders/{order}', [OrderController::class, 'update'])->name('admin.orders.update');
@@ -84,4 +94,5 @@ Route::middleware(['auth', AuthAdmin::class])->prefix('admin')->group(function (
     Route::put('settings/profile', [SettingController::class, 'updateProfile'])->name('admin.settings.profile');
 });
 
+// Include Authentication Routes
 require __DIR__ . '/auth.php';

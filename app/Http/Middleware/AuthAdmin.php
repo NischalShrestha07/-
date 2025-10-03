@@ -17,7 +17,7 @@ class AuthAdmin
                 return redirect()->route('login')->with('error', 'Unauthorized access. Admin privileges required.');
             }
         } else {
-            return redirect()->route('login');
+            return redirect()->route('login')->with('error', 'Please log in to access the admin dashboard.');
         }
     }
 }

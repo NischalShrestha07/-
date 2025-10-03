@@ -13,7 +13,7 @@ class SettingController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'admin']); // Assumes 'admin' middleware for admin role
+        $this->middleware(['auth', 'AuthAdmin']);
     }
 
     /**
@@ -23,7 +23,7 @@ class SettingController extends Controller
     {
         $settings = Setting::firstOrCreate([]);
         $admin = Auth::user();
-        return view('admin.settings.index', compact('settings', 'admin'));
+        return view('settings.index', compact('settings', 'admin'));
     }
 
     /**
